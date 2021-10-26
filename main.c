@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]) {
 		printf("Escriba el nombre del archivo a comprimir - Ejemplo: %s ejemplo.png\n", argv[0]);
 		return 1;
 	}
-
+	printf("Esta es una prueba para subir un commit");
 	leerArchivo(argv[1]);
 
 	return 0;
