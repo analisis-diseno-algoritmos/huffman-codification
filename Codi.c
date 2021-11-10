@@ -42,6 +42,7 @@ int EsHoja(struct ArbolBB *raiz)
 {
     return !raiz->izq && !raiz->der;
 }
+
 int Vacio(struct ArbolBB *raiz)
 {
     return raiz == NULL;
