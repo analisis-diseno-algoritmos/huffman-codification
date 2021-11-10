@@ -105,7 +105,7 @@ void BuscarElementoA(struct ArbolBB *raiz, int dato)
         }
     }
 }
-
+//Función para hacer el recorrido Inorden de árbol, recibe una estructura del tipo árbol
 void RecorridoInorden(struct ArbolBB *a)
 {
     if(a!=NULL)
@@ -151,6 +151,7 @@ void mostrarLista(struct ListaSLigada *lista)
     }
 }
 
+//Función que busca un elemento en una lista, recibe una estructura de tipo lista signada y otra de tipo árbol
 int buscarElementoL(struct ListaSLigada *lista, struct ArbolBB *raiz)
 {
     struct ListaSLigada *aux = NULL;
@@ -248,6 +249,8 @@ void Merge(struct elementoA A[], int p, int q, int f)
 
 //-------------------------------------------GENERACION DE ARBOL DE HUFFMAN---------------------------//
 struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li);
+
+//Recibe una estructura del tipo lista signada 
 struct ListaSLigada *generarA(struct ListaSLigada *li)
 {
     struct ListaSLigada *aux = NULL;
@@ -286,7 +289,7 @@ struct ListaSLigada *generarA(struct ListaSLigada *li)
 }
 
 //----------------------------------------------------INSERCION DEL NODO A LA LISTA-----------------------------------------------------//
-
+//Recibe una estructura de tipo arbol y una de tipo lista signada
 struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li)
 {
     //printf("ENTREAQUI\n");
@@ -331,6 +334,7 @@ struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li)
     return li;
 }
 //-----------------------------------------------ULTIMO ELEMENTO DE LA LISTA-----------------------------------//
+//Recibe una estructura de tipo lista signada 
 struct ArbolBB *ultimoelemento(struct ListaSLigada *l)
 {
     struct ListaSLigada *aux;
@@ -347,6 +351,7 @@ struct ArbolBB *ultimoelemento(struct ListaSLigada *l)
         }
     }
 }
+
 //----------------------------------------------------MAIN-----------------------------------------------------//
 int main(int argc, char *argv[])
 {
