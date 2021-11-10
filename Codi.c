@@ -1,3 +1,9 @@
+/*
+Programa de codificación y decodificación según Huffman con el paradgima de programación voraz 
+Autor: Puercos Salvajes
+Para compilar y correr: Para compilar se utiliza gcc Codi.c -o nombre_de_salida_deseado.exe 
+y para correrlo se escribe nombre_de_salida_deseado.exe nombre_del_archivo_a_codificar.su_extensión 
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -12,7 +18,7 @@ struct elementoA
     unsigned char c;
 } elementoA;
 
-//---------------------------------ESTRUCTURA  ARBOL--------------------------------------------//
+//--------------------DECLARACIÓN DE LA ESTRUCTURA  ARBOL-------------------------//
 struct ArbolBB
 {
     int dato;
@@ -20,8 +26,15 @@ struct ArbolBB
     struct ArbolBB *izq;
     struct ArbolBB *der;
 };
+
+//---------DECLARACIÓN DE LA ESTRUCTURA PARA AGREGAR ELEMENTOS EN UN ÁRBOL---------------//
+//Recibe una estructura de tipo ArbolAbb, un entero sin signo y un char sin signo
 struct ArbolBB *AgregarElementoA(struct ArbolBB *, unsigned int f, unsigned char c);
+
+//---------DECLARACIÓN DE LA FUNCIÓN PARA BUSCAR ELEMENTOS DENTRO DEL ÁRBOL--------//
+//Recibe una estructura de tipo árbol y un entero que es el entero a buscar
 void BuscarElementoA(struct ArbolBB *, int dato);
+
 int EsHoja(struct ArbolBB *);
 int Vacio(struct ArbolBB *);
 
@@ -34,6 +47,7 @@ int Vacio(struct ArbolBB *raiz)
     return raiz == NULL;
 }
 
+//Especificación del método para agregar elementos a un árbol
 struct ArbolBB *AgregarElementoA(struct ArbolBB *raiz, unsigned int f, unsigned char c)
 {
     if (raiz == NULL) // Caso base
@@ -46,11 +60,13 @@ struct ArbolBB *AgregarElementoA(struct ArbolBB *raiz, unsigned int f, unsigned 
         nuevo->der = NULL;
         return nuevo;
     }
-
+//Si el entero que lee es menor que el que se encuentra en determinada posición, lo manda a la izquierda
     if (f < raiz->e.f)
     {
+    //Llamada recursiva a la función pasándole una nueva raíz pero el mismo entero y el mismo char
         raiz->izq = AgregarElementoA(raiz->izq, f, c);
     }
+//Si el entero que lee es mayor que el que se encuentra en determinada posición, lo manda a la derecha
     else
     {
         raiz->der = AgregarElementoA(raiz->der, f, c);
@@ -58,6 +74,8 @@ struct ArbolBB *AgregarElementoA(struct ArbolBB *raiz, unsigned int f, unsigned 
 
     return raiz;
 }
+
+//Especificación de la función para buscar elementos 
 void BuscarElementoA(struct ArbolBB *raiz, int dato)
 {
     if (raiz == NULL)
@@ -69,10 +87,13 @@ void BuscarElementoA(struct ArbolBB *raiz, int dato)
         printf("\n\t%d encontrado\n", raiz->dato);
     else
     {
+    //Si el entero que busca es menor que el que se encuentra en determinada posición, elegimos como nueva raíz el lado izquierdo
         if (dato < raiz->dato)
         {
+        //Llamada recursiva pasándole una nueva raíz y el mismo dato a buscar
             BuscarElementoA(raiz->izq, dato);
         }
+    //Si el entero que busca es mayor que el que se encuentra en determinada posición, elegimos como nueva raíz el lado derecho
         else if (dato > raiz->dato)
         {
             BuscarElementoA(raiz->der, dato);
