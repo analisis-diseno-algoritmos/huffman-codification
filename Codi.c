@@ -124,13 +124,13 @@ struct ListaSLigada
     struct ListaSLigada *siguiente;
     struct ListaSLigada *anterior;
 };
-
+//Declaración de funciones para la estructura lista, tanto mezclar como agregar y buscar usan dos estructuras, unua de tipo lista signada y una de tipo árbol
 struct ListaSLigada *agregarElementoL(struct ListaSLigada *, struct ArbolBB *raiz);
 struct ListaSLigada *mezclarListasL(struct ListaSLigada *, struct ListaSLigada *);
 void mostrarLista(struct ListaSLigada *);
 int buscarElementoL(struct ListaSLigada *, struct ArbolBB *raiz);
 
-//FUNCIONES LISTA
+//FUNCIONES DE LA ESCTRUCTURA LISTA
 
 struct ListaSLigada *agregarElementoL(struct ListaSLigada *lista, struct ArbolBB *raiz)
 {
