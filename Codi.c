@@ -59,17 +59,17 @@ int Vacio(struct ArbolBB *raiz)
 }
 
 /*
-void RecorridoInorden(struct ArbolBB *a)
+void RecorridoInorden(struct ArbolBB *arbol)
     Entrada: Recibe una estructura arbol
     Salida: Retorna el recorrido InOrden del arbol que se encuentra en el ultimo nodo
 */
-void RecorridoInorden(struct ArbolBB *a)
+void RecorridoInorden(struct ArbolBB *arbol)
 {
-    if(a!=NULL)
+    if(arbol!=NULL)
     {
-        RecorridoInorden(a->izq);
-        printf("%d\n", a->e.f);
-        RecorridoInorden(a->der);
+        RecorridoInorden(arbol->izq);
+        printf("%d\n", arbol->e.f);
+        RecorridoInorden(arbol->der);
     }
 }
 
@@ -105,7 +105,7 @@ struct ListaSLigada *agregarElementoL(struct ListaSLigada *lista, struct ArbolBB
 }
 /*
 void mostrarLista(struct ListaSLigada *lista)
-    Entrada: Recibe una estructura lista 
+    Entrada: Recibe una estructura lista
     Salida: Retorna los elementos que se encuentran en la lista
 */
 void mostrarLista(struct ListaSLigada *lista)
@@ -118,30 +118,29 @@ void mostrarLista(struct ListaSLigada *lista)
 }
 /*
 int buscarElementoL(struct ListaSLigada *lista, struct ArbolBB *raiz)
-    Entrada: Recibe una estructura lista y una estructura arbol 
+    Entrada: Recibe una estructura lista y una estructura arbol
     Salida: Retorna un 1 si el valor se encuentra, en caso de no ser asi retorna un 0
 */
 int buscarElementoL(struct ListaSLigada *lista, struct ArbolBB *raiz)
 {
     struct ListaSLigada *aux = NULL;
-    int band = 0;
+    // int band = 0;
     aux = lista;
     while (aux != NULL)
     {
         if (aux->raiz == raiz)
         {
             //printf (" %d :)! \n", aux->dato);
-            band = 1;
+            // band = 1;
             return 1;
-            break;
         }
         aux = aux->siguiente;
     }
-    if (band == 0)
-    {
+    // if (band == 0)
+    // {
         //printf ("¡%d :(!! \n", dato);
-        return 0;
-    }
+    // }
+    return 0;
 }
 //-------------------------------------------ORDENAMIENTO MEZCLA------------------------------------------------//
 /*FUNCION Merge
@@ -151,10 +150,10 @@ acomodando de manera que se ordenen los numeros de menor a mayor
 */
 void Merge(struct elementoA A[], int p, int q, int f);
 /*Funcion MergeSort
-En esta funcion se reciben tres parametros, uno es el arreglo de tipo entero de 
-numeros a ordenar, luego dos valores enteros que son indices. Esta funcion se 
+En esta funcion se reciben tres parametros, uno es el arreglo de tipo entero de
+numeros a ordenar, luego dos valores enteros que son indices. Esta funcion se
 encargara de ir partiendo el arreglo en pequenas partes hasta llegar a un solo
-arreglo de un elementoL que luego sera comparado con otro arreglo de manera que 
+arreglo de un elementoL que luego sera comparado con otro arreglo de manera que
 ambos arreglos se ordenen de menor a mayor*/
 void MergeSort(struct elementoA A[], int p, int f)
 {
@@ -178,7 +177,7 @@ void Merge(struct elementoA A[], int p, int q, int f)
     i = p;
     j = q + 1;
 
-    struct elementoA *C = malloc(sizeof(elementoA) * l); //Se reserva memoria para una variable temporal
+    struct elementoA *C = (struct elementoA*) malloc(sizeof(elementoA) * l); //Se reserva memoria para una variable temporal
     for (k = 0; k < l; k++)
     {
         if (i <= q && j <= f) //Primero se ve si los elementoLs ya han sido colocados en el arreglo
@@ -217,20 +216,20 @@ void Merge(struct elementoA A[], int p, int q, int f)
 }
 
 //-------------------------------------------GENERACION DE ARBOL DE HUFFMAN---------------------------//
-struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li);
+struct ListaSLigada *InsercionArbol(struct ArbolBB *a, struct ListaSLigada *inicio);
 /*
-struct ListaSLigada *generarA(struct ListaSLigada *li)
-    Entrada: Recibe una estructura Lista li
-    Salida:Retorna la lista li
-    Descripcion: Esta funcion se encarga de sumar los nodos de la lista, es decir, los 
-                pequeños arboles que se generan en cada nodo, se suman las frecuencias y se 
+struct ListaSLigada *generarA(struct ListaSLigada *inicio)
+    Entrada: Recibe una estructura Lista inicio
+    Salida:Retorna la lista inicio
+    Descripcion: Esta funcion se encarga de sumar los nodos de la lista, es decir, los
+                pequeños arboles que se generan en cada nodo, se suman las frecuencias y se
                 busca un lugar en la lista en el que se va a guardar el nuevo arbol
 */
-struct ListaSLigada *generarA(struct ListaSLigada *li)
+struct ListaSLigada *generarA(struct ListaSLigada *inicio)
 {
     struct ListaSLigada *aux = NULL;
     aux = (struct ListaSLigada *)malloc(sizeof(struct ListaSLigada));
-    aux = li;
+    aux = inicio;
 
     struct ListaSLigada *aux2 = NULL;
     aux2 = (struct ListaSLigada *)malloc(sizeof(struct ListaSLigada));
@@ -251,7 +250,7 @@ struct ListaSLigada *generarA(struct ListaSLigada *li)
         //printf("i %d \t %d\n", arbolaux->izq->e.c, arbolaux->izq->e.f);
         //printf("d %d \t %d\n", arbolaux->der->e.c, arbolaux->der->e.f);
 
-        aux = Insercionarbol(arbolaux, aux);
+        aux = InsercionArbol(arbolaux, aux);
         //printf("NOESTOY\n\n\n");
 
         cont++;
@@ -260,25 +259,24 @@ struct ListaSLigada *generarA(struct ListaSLigada *li)
         aux2 = aux2->siguiente->siguiente;
     }
     //printf("SALI\n");
-    return li;
+    return inicio;
 }
 
 //----------------------------------------------------INSERCION DEL NODO A LA LISTA-----------------------------------------------------//
 /*
-struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li)
+struct ListaSLigada *InsercionArbol(struct ArbolBB *a, struct ListaSLigada *li)
     Entrada: Recibe una estructura arbol a y una estructura lista li
     Salida:Retorna la lista li
-    Descripcion: Esta funcion se encarga de insertar los arboles (con el caracter y su frecuencia) y dependiendo de la frecuencia que 
+    Descripcion: Esta funcion se encarga de insertar los arboles (con el caracter y su frecuencia) y dependiendo de la frecuencia que
                 tenga el arbol, será la posicion en la que se inserte en la lista li
 */
-struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li)
+struct ListaSLigada *InsercionArbol(struct ArbolBB *arbol, struct ListaSLigada *li)
 {
     //printf("ENTREAQUI\n");
     struct ListaSLigada *aux1;
 
     aux1 = (struct ListaSLigada *)malloc(sizeof(struct ListaSLigada));
-    aux1->raiz = a;
-    aux1->siguiente;
+    aux1->raiz = arbol;
     if (li == NULL)
     {
         li = aux1;
@@ -292,18 +290,18 @@ struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li)
 
         aux2 = li;
 
-        while (aux2->siguiente != NULL && (aux2->raiz->e.f) < (a->e.f))
+        while (aux2->siguiente != NULL && (aux2->raiz->e.f) < (arbol->e.f))
         {
             //printf("n %d %d \t %d\n", aux2->raiz->e.c, a->e.f, aux2->raiz->e.f);
             aux3 = aux2;
             aux2 = aux2->siguiente;
         }
-        if (aux2->siguiente == NULL && (aux2->raiz->e.f) < (a->e.f))
+        if (aux2->siguiente == NULL && (aux2->raiz->e.f) < (arbol->e.f))
         {
             //printf("P ULTIMO\n");
             aux2->siguiente = aux1;
         }
-        if ((aux2->raiz->e.f) >= (a->e.f))
+        if ((aux2->raiz->e.f) >= (arbol->e.f))
         {
             //printf("P INTERMEDIO\n");
             aux3->siguiente = aux1;
@@ -316,13 +314,13 @@ struct ListaSLigada *Insercionarbol(struct ArbolBB *a, struct ListaSLigada *li)
 }
 //-----------------------------------------------ULTIMO ELEMENTO DE LA LISTA-----------------------------------//
 /*
-struct ListaSLigada *ultimoelemento(struct ListaSLigada *l)
+struct ListaSLigada *ultimoElemento(struct ListaSLigada *l)
     Entrada: Recibe una estructura lista l
     Salida:Retorna una estructura lista aux
     Descripcion: Esta funcion recorre la lista hasta llegar al ultimo nodo, en el cual se encuentra el arbol de huffman
                 con todos los pequeños arboles unidos por las frecuencias
 */
-struct ListaSLigada *ultimoelemento(struct ListaSLigada *l)
+struct ListaSLigada *ultimoElemento(struct ListaSLigada *l)
 {
     struct ListaSLigada *aux;
     aux = (struct ListaSLigada *)malloc(sizeof(struct ListaSLigada));
@@ -337,6 +335,8 @@ struct ListaSLigada *ultimoelemento(struct ListaSLigada *l)
             return aux;
         }
     }
+
+    return NULL;
 }
 //--------------------------------------------------------------------------------------------------------------//
 long long cadenas=0;
@@ -345,7 +345,7 @@ void generarCodigos(struct ArbolBB *b, int nivel, char codigoIndividual[], char 
     Entrada: Estructura arbol b, entero nivel (indica la profundidad del arbol),  un arreglo de caracteres y un arreglo de cadenas
     Salida:
     Descripcion: La funcion recorre el arbol, segun el recorrido tendra un valor, es decir, si se va por la izquierda, su valor será 0
-                en caso de que vaya derecha, es 1. Se comprueba que el nodo no sea hoja, en caso de que el nodo en el que se encuentra sea un 
+                en caso de que vaya derecha, es 1. Se comprueba que el nodo no sea hoja, en caso de que el nodo en el que se encuentra sea un
                 caracter, guarda el recorrido para ese caracter en el arreglo.
 */
 void generarCodigos(struct ArbolBB *b, int nivel, char codigoIndividual[], char *codigosBytes[])
@@ -367,7 +367,7 @@ void generarCodigos(struct ArbolBB *b, int nivel, char codigoIndividual[], char 
         codigoIndividual[nivel] = '\0';
         if (codigosBytes != NULL)
         {
-            codigosBytes[b->e.c] = malloc(strlen(codigoIndividual) + 1);
+            codigosBytes[b->e.c] = (char*) malloc(strlen(codigoIndividual) + 1);
             printf("%s\n", codigoIndividual);
             strcpy(codigosBytes[b->e.c], codigoIndividual);
             cadenas += (strlen(codigosBytes[b->e.c])) * (b->e.f);
@@ -382,16 +382,16 @@ void generarCodigos(struct ArbolBB *b, int nivel, char codigoIndividual[], char 
 
     while (!feof(f))
     {
-        
+
         aux = fgetc(f);
-        
+
         if (cBytes[aux] != 0)
         {
             printf("%s", cBytes[aux]);
             //fwrite(codigosHojas[r],sizeof(char*),1,f2);
             //fprintf(f2,"%s ", codigosHojas[r]);
         }
-        
+
 
     }
 
@@ -399,25 +399,24 @@ void generarCodigos(struct ArbolBB *b, int nivel, char codigoIndividual[], char 
 
 char *obtenerCadenaArchivo(FILE *f, char *cBytes[])
 {
-    int r;
     //printf("La variable global FUNCION %d\n", cadenas);
     unsigned char aux;
     char *c;
-    c = malloc(cadenas + 1);
-    memset(c, 0, sizeof(c));
+    c = (char*) malloc(cadenas + 1);
+    memset(c, 0, (size_t) sizeof(c));
     //printf("La cadena auxiliar es %s\n", c);
     while (!feof(f))
     {
-        
+
         aux = fgetc(f);
-        
+
         if (cBytes[aux] != 0)
         {
             strcat(c, cBytes[aux]);
             //fwrite(codigosHojas[r],sizeof(char*),1,f2);
             //fprintf(f2,"%s ", codigosHojas[r]);
         }
-        
+
     }
     //printf("La cadena auxiliar RETORNADA es %s\n", c);
     return c;
@@ -430,9 +429,10 @@ long long escribirBytesM(char *cadena)
     FILE *f3;
     f3 = fopen("Frecuencia.dat", "wb+");
     printf("La variable global aqui adentro es %lld\n",cadenas);
-    int longitud = strlen(cadena), contador = 0, bandera = 0, byteEntero = 0;
+    int longitud = strlen(cadena), contador = 0;
     long long bytes=0;
-    unsigned char byte = 0, byteChar = 0;
+    unsigned char byte = 0;
+    // unsigned char byteChar = 0;
 
     //printf("Cadena %d\n", longitud);
     //printf("Cadena %s\n", cadena);
@@ -445,14 +445,14 @@ long long escribirBytesM(char *cadena)
     int *castBytes;
     if (longitud % 8 == 0)
     {
-        castBytes = malloc((bitsCompletos * 8) - 1);
-        memset(castBytes, 0, sizeof(castBytes));
+        castBytes = (int*) malloc((bitsCompletos * 8) - 1);
+        memset(castBytes, 0, (size_t) sizeof(castBytes));
     }
 
     if (longitud % 8 != 0)
     {
-        castBytes = malloc((bitsCompletos * 8) + 1);
-        memset(castBytes, 0, sizeof(castBytes));
+        castBytes = (int*) malloc((bitsCompletos * 8) + 1);
+        memset(castBytes, 0, (size_t) sizeof(castBytes));
     }
 
     for (i = 0; i <= (bitsCompletos * 8); i++)
@@ -472,13 +472,13 @@ long long escribirBytesM(char *cadena)
         if (cadena[i] == '0')
         {
             //printf("Iteracion %d\n",i);
-            PONE_0(byte, 7 - contador);
+            PONE_0(byte, (7 - contador));
             //printf("0 %d\n",(int)(byte));
         }
         if (cadena[i] == '1')
         {
             //printf("Iteracion %d\n",i);
-            PONE_1(byte, 7 - contador);
+            PONE_1(byte, (7 - contador));
             //printf("1 %d\n",(int)byte);
         }
         //printf("NO se debe reiniciar la cuenta, entonces el contador es %d porque la i es %d\n",contador, i);
@@ -489,7 +489,7 @@ long long escribirBytesM(char *cadena)
     {
         byte = 0;
         contador = 0;
-        
+
         //printf("Los bits sobrantes son %d y el siguiente es %d y el auxiliar %d\n",bitsSobrantes,siguiente, auxiliar);
 
         for (int j = i; j <= bitsSobrantes; j++)
@@ -497,12 +497,12 @@ long long escribirBytesM(char *cadena)
             //printf("Iteracion %d\n",contador);
             if (cadena[j] == '0')
             {
-                PONE_0(byte, 7 - contador);
+                PONE_0(byte, (7 - contador));
                 //printf("0 %d\n",(int)(byte));
             }
             if (cadena[j] == '1')
             {
-                PONE_1(byte, 7 - contador);
+                PONE_1(byte, (7 - contador));
                 //printf("1 %d\n",(int)byte);
             }
             //printf("NO se debe reiniciar la cuenta, entonces el contador es %d porque la i es %d\n",contador, i);
@@ -511,11 +511,11 @@ long long escribirBytesM(char *cadena)
         for (i = bitsSobrantes+1; i < siguiente; i++)
         {
             //printf("Iteracion %d\n", contador);
-            PONE_0(byte, 7 - contador);
+            PONE_0(byte, (7 - contador));
             //printf("N %d\n", (int)(byte));
             contador++;
         }
-        
+
         //printf("%d ", castBytes[bytes]);
         //printf("Byte: %c\n", byteChar);
         fwrite(&byte, sizeof(char), 1, f3);
@@ -531,7 +531,7 @@ long long escribirBytesM(char *cadena)
 //----------------------------------------------------MAIN-----------------------------------------------------//
 int main(int argc, char *argv[])
 {
-    struct ListaSLigada *l = NULL;
+    struct ListaSLigada *lista = NULL;
     FILE *f;
     FILE *f2; //ARCHIVO DE FRECUENCIAS EN TEXTO CLARO
 
@@ -550,7 +550,7 @@ int main(int argc, char *argv[])
     //--------------------------------------------LECTOR DE ARCHIVOS-----------------------------------------------//
     f = fopen(argv[1], "rb");
 
-    fseek(f, 0L, SEEK_END);     
+    fseek(f, 0L, SEEK_END);
     long long tam = ftell(f);
     fseek(f, 0L, SEEK_SET);
 
@@ -577,7 +577,7 @@ int main(int argc, char *argv[])
     {
         fprintf(f2, "%-1d \t %-7d \n", i, arr_aux[i]);
     }
-    
+
     //SE HACE UN FILTRO DE LOS CARACTERES QUE NO APARECEN
     int j = 0;
     for (i = 0; i < 256; i++)
@@ -590,20 +590,22 @@ int main(int argc, char *argv[])
         }
     }
     //----------------IMPRIMIMOS EL FILTRO-----------------/
-    /*for (i = 0; i < j; i++)
+    printf("LISTA ANTES DE MERGE\n");
+    for (i = 0; i < j; i++)
     {
         printf("%d \t %d\n", (arrSZ[i]).c, (arrSZ[i]).f);
-    }*/
+    }
 
     //ORDENAR FRECUENCIAS
     printf("\n\n\n");
     MergeSort(arrSZ, 0, j);
+    printf("LISTA DESPUES DE MERGE\n");
 
     //----------------ORDENADOSSS-------------------------//
-    /*for (i = 0; i < j; i++)
+    for (i = 0; i < j; i++)
     {
         printf("%d \t %d\n", (arrSZ[i]).c, (arrSZ[i]).f);
-    }*/
+    }
 
     //--------------------------------------
     printf("\n\n");
@@ -615,22 +617,26 @@ int main(int argc, char *argv[])
         a->der = NULL;
         a->e.f = arrSZ[i].f;
         a->e.c = arrSZ[i].c;
-        l = agregarElementoL(l, a);
+        lista = agregarElementoL(lista, a);
     }
-    //mostrarLista(l);
 
-    l = generarA(l);
+    lista = generarA(lista);
 
-    mostrarLista(l);
+    // mostrarLista(lista);
     printf("\n\n\n\n\n\n");
     struct ListaSLigada *nodo;
     nodo=(struct ListaSLigada*)malloc(sizeof(struct ListaSLigada));
 
-    nodo=ultimoelemento(l);
+    nodo = ultimoElemento(lista);
+    if (nodo == NULL)
+    {
+        printf("Hubo un error con el ultimo elemento.\n");
+        return -1;
+    }
     //RecorridoInorden(nodo->raiz);
 
     generarCodigos(nodo->raiz, nivel, Cindividual, cBytes);
-    
+
     for (int j = 0; j < 256; j++)
     {
         if (cBytes[j] != 0)
@@ -641,8 +647,8 @@ int main(int argc, char *argv[])
     fseek(f, 0L, SEEK_SET);
 
     char *Aux;
-    Aux=malloc(cadenas);
-    Aux=obtenerCadenaArchivo(f,cBytes);
+    Aux = (char*) malloc(cadenas);
+    Aux = obtenerCadenaArchivo(f,cBytes);
 
     //printf("%s ",Aux);
     codificador=escribirBytesM(Aux);
