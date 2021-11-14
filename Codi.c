@@ -55,15 +55,15 @@ struct ListaSLigada
 /*****************************************************/
 
 //------------------------------------------FUNCIONES ARBOL------------------------------------------//
-struct ArbolBB *agregarElementoA(struct ArbolBB *, unsigned int, unsigned char);
-void buscarElementoA(struct ArbolBB *, int);
+// struct ArbolBB *agregarElementoA(struct ArbolBB *, unsigned int, unsigned char);
+// void buscarElementoA(struct ArbolBB *, int);
 int esHoja(struct ArbolBB *);
 int vacio(struct ArbolBB *);
 void recorridoInorden(struct ArbolBB *);
 
 //------------------------------------------FUNCIONES LISTA------------------------------------------//
+// struct ListaSLigada *mezclarListasL(struct ListaSLigada *, struct ListaSLigada *);
 struct ListaSLigada *agregarElementoL(struct ListaSLigada *, struct ArbolBB *);
-struct ListaSLigada *mezclarListasL(struct ListaSLigada *, struct ListaSLigada *);
 void mostrarLista(struct ListaSLigada *);
 int buscarElementoL(struct ListaSLigada *, struct ArbolBB *);
 
