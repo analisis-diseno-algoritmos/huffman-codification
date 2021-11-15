@@ -613,10 +613,12 @@ long long escribirBytesM(char *cadena)
   int longitud = strlen(cadena), contador = 0;
   long long bytes=0;
   unsigned char byte = 0;
-  // unsigned char byteChar = 0;
+  /*
+  unsigned char byteChar = 0;
 
   //printf("Cadena %d\n", longitud);
   //printf("Cadena %s\n", cadena);
+  */
   int bitsCompletos = (int)(longitud / 8);
   int bitsSobrantes = (longitud) - (bitsCompletos * 8);
   int siguiente = ((bitsCompletos + 1) * 8);
@@ -696,13 +698,16 @@ long long escribirBytesM(char *cadena)
       //printf("N %d\n", (int)(byte));
       contador++;
     }
-
-    //printf("%d ", castBytes[bytes]);
+    /*
+    printf("%d ", castBytes[bytes]);
     //printf("Byte: %c\n", byteChar);
+    */
     fwrite(&byte, sizeof(char), 1, f3);
-    //printf("Byte: %d\n ", castBytes[bytes]);
+    /*
+    printf("Byte: %d\n ", castBytes[bytes]);
     //fprintf(f3,"%d",castBytes[bytes]);
     //printf("El auxiliar de la cadena %d y el byte es %d\n", castBytes[bytes], bytes);
+    */
   }
   //printf("%d\n", bytes);
   //printf("La cadena final es %s\n",cadenaBytes);
