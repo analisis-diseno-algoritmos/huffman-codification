@@ -539,7 +539,8 @@ void generarCodigos(struct ArbolBB *b, int nivel, char codigoIndividual[], char 
         printf("%d \t i%c\n", nivel, codigoIndividual[nivel]);
         generarCodigos(b->izq,nivel+1,codigoIndividual,codigosBytes);
     }
-    if(b->der !=NULL){
+    if(b->der !=NULL)
+    {
         codigoIndividual[nivel] = '1';
         printf("%d \t d%c\n", nivel, codigoIndividual[nivel]);
         generarCodigos(b->der,nivel+1,codigoIndividual,codigosBytes);
