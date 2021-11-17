@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include "tiempo.h"
 
 //MANEJO DE BITS
 #define PESOBIT(bpos) 1 << bpos
@@ -104,6 +105,9 @@ int main(int argc, char *argv[])
         perror("ERROR");
     }
     //--------------------------------------------LECTOR DE ARCHIVOS-----------------------------------------------//
+    double utime0, stime0, wtime0,utime1, stime1, wtime1, ttotal, tprom; //Variables para medición de tiempos
+    //Inicializamos el conteo del tiempo
+    uswtime(&utime0, &stime0, &wtime0);
     f = fopen(argv[1], "rb");
 
     fseek(f, 0L, SEEK_END);
@@ -208,11 +212,29 @@ int main(int argc, char *argv[])
 
     //printf("%s ",Aux);
     codificador=escribirBytesM(Aux);
+    //Finalizamos el conteo del tiempo
+    uswtime(&utime1, &stime1, &wtime1);
     long long porcentaje=0;
     porcentaje= ((tam-codificador)*100)/tam;
 
     fprintf(f2, "%lld\n", codificador);
     fprintf(f2, "Porcentaje de compresion: %lld\n", porcentaje);
+
+    //Calculo del tiempo de ejecucion del programa
+    printf("ARCHIVO: %s\n", argv[1]);
+    printf("real (Tiempo total)  %.10f s\n", wtime1 - wtime0);
+    printf("user (Tiempo de procesamiento en CPU) %.10f s\n", utime1 - utime0);
+    printf("sys (Tiempo en acciónes de E/S)  %.10f s\n", stime1 - stime0);
+    printf("CPU/Wall   %.10f %% \n", 100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
+    printf("\n");
+
+    //Mostrar los tiempos en formato exponecial
+    printf("Formato exponencial: \n");
+    printf("real (Tiempo total)  %.10e s\n", wtime1 - wtime0);
+    printf("user (Tiempo de procesamiento en CPU) %.10e s\n", utime1 - utime0);
+    printf("sys (Tiempo en acciónes de E/S)  %.10e s\n", stime1 - stime0);
+    printf("CPU/Wall   %.10f %% \n", 100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
+    printf("-----------------------------------------------\n");
     //-------------------------------FUNCION FRECUENCIAS--------------------------------//
     fclose(f2);
     fclose(f);
