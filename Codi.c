@@ -150,6 +150,7 @@ int main(int argc, char *argv[])
         }
     }
     //----------------IMPRIMIMOS EL FILTRO-----------------/
+    /*
     printf("LISTA ANTES DE MERGE\n");
     for (i = 0; i < j; i++)
     {
@@ -166,6 +167,7 @@ int main(int argc, char *argv[])
     {
         printf("%d \t %d\n", (arrSZ[i]).c, (arrSZ[i]).f);
     }
+    */
 
     //--------------------------------------
     printf("\n\n");
